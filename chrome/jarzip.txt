@@ -1,0 +1,4 @@
+content/typegauge/logo.png
+content/typegauge/typegauge.css
+content/typegauge/typegauge.js
+content/typegauge/typegauge.xul
