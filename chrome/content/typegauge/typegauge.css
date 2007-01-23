@@ -1,0 +1,63 @@
+#typegauge-bg {
+  position:fixed;
+  z-index: 2147483646;
+  bottom:0;
+  left:0;
+  width:100%;
+  height:30px;
+  outline:1px solid #999;
+  border-top:1px solid black;
+  background-color:#333;
+  opacity: .7;
+}
+
+#typegauge {
+  position:fixed;
+  z-index: 2147483647;
+  bottom:0;
+  right:0;
+  height:25px;
+}
+
+
+#typegauge dl {
+  margin:0;
+  padding:0;
+  float:right;
+}
+
+#typegauge dt, #typegauge dd {
+  display:table-cell;
+  width:30px;
+  float:none;
+  clear:none;
+  margin:0;
+}
+
+#typegauge dt {
+  color:#e3e3e3;
+  font: normal 11px Arial,sans-serif;
+  text-transform:uppercase;
+  padding-right:1em;
+}
+
+#typegauge dd {
+  color:white;
+  font: bold 13px Arial,sans-serif;
+  padding-right:2em;
+  width:50px;
+}
+
+#typegauge dd.tg-tag {
+  font-family: Monaco, monospace;
+  text-transform:lowercase;
+  width:100px;
+}
+
+#typegauge dd.tg-tag:before {
+  content:'<';
+}
+
+#typegauge dd.tg-tag:after {
+  content:'>';
+}

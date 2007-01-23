@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE overlay >
+<overlay id="TypeGauge-overlay"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+
+  <script src="typegauge.js"/> 
+
+  <!-- Firefox -->
+  <statusbar id="status-bar">
+    <statusbarpanel 
+      class="statusbarpanel-iconic"
+      id="tgStatus"
+      tooltiptext="Click to start measuring type"
+      onclick="TypeGauge.toggle()"
+      src="chrome://typegauge/content/typegauge/logo.png"
+      style="cursor:pointer"
+
+      />
+  </statusbar>
+
+</overlay>

@@ -1,0 +1,4 @@
+content typegauge chrome/content/typegauge xpcnativewrappers=no
+
+# Firefox
+overlay	chrome://browser/content/browser.xul chrome://typegauge/content/typegauge/typegauge.xul
