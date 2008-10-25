@@ -3,7 +3,7 @@
 <Description about = "urn:mozilla:install-manifest">
   <em:id>typegauge@pau.santesmasses.net</em:id>
   <em:name>TypeGauge</em:name>
-  <em:version>0.5</em:version>
+  <em:version>0.3</em:version>
   <em:description>Measure Type</em:description>
   <em:creator>Pau Santesmasses</em:creator>
   <em:homepageURL>http://pau.santesmasses.net/typegauge</em:homepageURL>
