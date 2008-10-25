@@ -1,4 +1,5 @@
-content typegauge chrome/content/typegauge xpcnativewrappers=no
+content typegauge chrome/content/ xpcnativewrappers=no
+content typegauge chrome/content/ xpcnativewrappers=no contentaccessible=yes
 
 # Firefox
-overlay	chrome://browser/content/browser.xul chrome://typegauge/content/typegauge/typegauge.xul
+overlay	chrome://browser/content/browser.xul chrome://typegauge/content/typegauge.xul

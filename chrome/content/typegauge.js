@@ -15,7 +15,7 @@ TypeGauge = {
   },
   
   init: function() {
-    this.attachStyles("chrome://typegauge/content/typegauge/typegauge.css")
+    this.attachStyles("chrome://typegauge/content/typegauge.css")
     
     var doc = window.content.document
     var body = window.content.document.getElementsByTagName('body')[0]
@@ -26,6 +26,7 @@ TypeGauge = {
     output.setAttribute('id', 'typegauge')
     body.appendChild(background)
     body.appendChild(output)
+    TypeGauge.updateOutput({tag:'', size:'', lineHeight:''})
     
 
     for (i = 0; i < els.length; i++) {

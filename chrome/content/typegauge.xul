@@ -14,7 +14,7 @@
       id="tgStatus"
       tooltiptext="Click to start measuring type"
       onclick="TypeGauge.toggle()"
-      src="chrome://typegauge/content/typegauge/logo.png"
+      src="chrome://typegauge/content/logo.png"
       style="cursor:pointer"
 
       />
