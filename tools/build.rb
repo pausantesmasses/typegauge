@@ -13,7 +13,7 @@ update_rdf = <<XML
 <r:RDF xmlns:r="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
        xmlns="http://www.mozilla.org/2004/em-rdf#">
 <!-- #{app_name} Extension -->
-<r:Description about="urn:mozilla:extension:{9bee8907-d91c-49b4-b947-cdb9c6716c1c}">
+<r:Description about="urn:mozilla:extension:#{app_name}@pau.santesmasses.net">
   <updates>
     <r:Seq>
       <r:li>
