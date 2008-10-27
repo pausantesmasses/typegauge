@@ -4,9 +4,10 @@
 <overlay id="TypeGauge-overlay"
   xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-
+  <script src="protosafe.js"/>
+  <script src="prototype.js"/>
   <script src="typegauge.js"/> 
-
+  
   <!-- Firefox -->
   <statusbar id="status-bar">
     <statusbarpanel 

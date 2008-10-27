@@ -18,8 +18,7 @@ TypeGauge = {
     this.attachStyles("chrome://typegauge/content/typegauge.css")
     
     var doc = window.content.document
-    var body = window.content.document.getElementsByTagName('body')[0]
-    var els = body.getElementsByTagName('*')
+    var body = window.content.document.body
     var background = doc.createElement('div')
     var output = doc.createElement('div')
     background.setAttribute('id', 'typegauge-bg')
@@ -28,30 +27,21 @@ TypeGauge = {
     body.appendChild(output)
     TypeGauge.updateOutput({tag:'', size:'', lineHeight:''})
     
-
-    for (i = 0; i < els.length; i++) {
-      els[i].addEventListener("mouseover", this.highLight, false)
-      els[i].addEventListener("mouseout", this.removeHighLight, false)
-    }
+    body.addEventListener("mouseover", this.highLight, false)
+    body.addEventListener("mouseout", this.removeHighLight, false)
     
-    doc.getElementById('typegauge').removeEventListener("mouseover", this.highLight, false)
-    doc.getElementById('typegauge').removeEventListener("mouseout", this.removeHighLight, false)
-    doc.getElementById('typegauge-bg').removeEventListener("mouseover", this.highLight, false)
-    doc.getElementById('typegauge-bg').removeEventListener("mouseout", this.removeHighLight, false)
   },
   
   shutdown: function() {
-    var body = window.content.document.getElementsByTagName('body')[0]
+    var doc = window.content.document
+    var body = window.content.document.body
     
     body.removeChild(window.content.document.getElementById('typegauge'))
     body.removeChild(window.content.document.getElementById('typegauge-bg'))
-    
-    var els = body.getElementsByTagName('*')
-    for (i = 0; i < els.length; i++) {
-      els[i].removeEventListener("mouseover", this.highLight, false)
-      els[i].removeEventListener("mouseout", this.removeHighLight, false)
-    }
-    
+
+    body.removeEventListener("mouseover", this.highLight, false)
+    body.removeEventListener("mouseout", this.removeHighLight, false)
+
   },
   
   attachStyles: function(location) {
@@ -72,15 +62,24 @@ TypeGauge = {
   },
   
   highLight: function(event) {
-    event.target.style.outline = '2px solid #ffcc00'
-    var tag = event.target.tagName
-    var size = TypeGauge.getFontSize(event.target)
-    var lineHeight = TypeGauge.getLineHeight(event.target)
-    TypeGauge.updateOutput({tag:tag, size:size, lineHeight:lineHeight})
+    
+    var nodes = new $Array();
+    for (var i=0, l = event.target.childNodes.length; i < l; i++) {
+      nodes.push(event.target.childNodes[i])
+    };
+    if (nodes.any(function(e){ return e.nodeType == 3 && !e.nodeValue.blank() })) {
+      event.target.style.backgroundColor = '#ffcc00'
+      event.target.style.cursor = 'text'
+      var tag = event.target.tagName
+      var size = TypeGauge.getFontSize(event.target)
+      var lineHeight = TypeGauge.getLineHeight(event.target)
+      TypeGauge.updateOutput({tag:tag, size:size, lineHeight:lineHeight})
+    }
   },
   
   removeHighLight: function(event) {
-    event.target.style.outline = 'none'
+    event.target.style.backgroundColor = ''
+    event.target.style.cursor = ''
   },
   
   getFontSize: function(el) {
