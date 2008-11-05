@@ -5,10 +5,6 @@
   xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
    <script src="typegauge.js"/> 
-  
-  <script>
-
-  </script>
 
   <popupset id="mainPopupSet">
     <panel id="typegauge-panel" noautohide="true" align="center">
@@ -17,17 +13,6 @@
       </div>
     </panel>
   </popupset>
-
-  <!-- <statusbar id="status-bar">
-    <statusbarpanel 
-      class="statusbarpanel-iconic"
-      id="tgStatus"
-      tooltiptext="Click to start measuring type"
-      onclick="TypeGauge.toggle()"
-      src="chrome://typegauge/content/logo.png"
-      style="cursor:pointer"
-      />
-  </statusbar> -->
   
   <statusbar id="status-bar">
     <statusbarpanel 
