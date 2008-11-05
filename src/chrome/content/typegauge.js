@@ -1,125 +1,140 @@
-TypeGauge = {
+TypeGauge = TG = {
   
-  isActive: function() {
-   if (window.content.document.getElementById('typegauge')) return true
-   else return false
+  initialize: function() {
+    TG.log = Components.utils.reportError;
+    window.addEventListener("load", TG.onWindowLoad, false);
+    window.addEventListener("unload", TG.onWindowUnload, false);
+  },
+  
+  onWindowLoad: function() {
+    TG.panel = document.getElementById('typegauge-panel');
+    TG.updateOutput({tag:'...', size:'...', lineHeight:'...'});
+    
+    var appcontent = document.getElementById("appcontent");
+    appcontent.addEventListener("DOMContentLoaded", TG.onPageLoad, true);
+  },
+  
+  onWindowUnload: function() {
+    var appcontent = document.getElementById("appcontent");
+    appcontent.removeEventListener("DOMContentLoaded", TG.onPageLoad, true);
+  },
+  
+  onPageLoad: function(event) {
+    TG.startListening(event.target);
+  },
+  
+  startListening: function(page) {
+    TG.updateOutput({tag:'', size:'', lineHeight:''});
+    page.addEventListener("mouseover", this.highlight, false);
+    page.addEventListener("mouseout", this.removeHighlight, false);
+    window.content.addEventListener("unload", this.stopListening, false);
+  },
+  
+  stopListening: function() {
+    var page = window.content.document;
+    page.removeEventListener("mouseover", this.highlight, false)
+    page.removeEventListener("mouseout", this.removeHighlight, false)
   },
   
   toggle: function() {
-    if(this.isActive()) {
-      this.shutdown()
+    var anchor = document.getElementById('browser-bottombox')
+    if (TG.panel.state == 'closed') {
+      TG.panel.openPopup(anchor, "before_start", 0, 0, false, true);
     }
     else {
-      this.init()
+      TG.panel.hidePopup();
     }
   },
   
-  init: function() {
-    this.attachStyles("chrome://typegauge/content/typegauge.css")
+  highlight: function(event) {
+    if (TG.panel.state == 'closed') return;
+    if (event.target.className == 'tg_wrapper') return;
+    if (event.relatedTarget && event.relatedTarget.className == 'tg_wrapper') return;
     
-    var doc = window.content.document
-    var body = window.content.document.body
-    var background = doc.createElement('div')
-    var output = doc.createElement('div')
-    background.setAttribute('id', 'typegauge-bg')
-    output.setAttribute('id', 'typegauge')
-    body.appendChild(background)
-    body.appendChild(output)
-    TypeGauge.updateOutput({tag:'', size:'', lineHeight:''})
+    var element = event.target;
+    var istext, isHighlighted;
     
-    body.addEventListener("mouseover", this.highLight, false)
-    body.addEventListener("mouseout", this.removeHighLight, false)
-    
-  },
-  
-  shutdown: function() {
-    var doc = window.content.document
-    var body = window.content.document.body
-    
-    body.removeChild(window.content.document.getElementById('typegauge'))
-    body.removeChild(window.content.document.getElementById('typegauge-bg'))
-
-    body.removeEventListener("mouseover", this.highLight, false)
-    body.removeEventListener("mouseout", this.removeHighLight, false)
-
-  },
-  
-  attachStyles: function(location) {
-    var headEls = window.content.document.getElementsByTagName("head")
-    var link = window.content.document.createElement("link")
-
-    link.setAttribute("href", location)
-    link.setAttribute("rel", "stylesheet")
-    link.setAttribute("type", "text/css")
-
-    if(headEls.length) {
-      headEls[0].appendChild(link);      
-    }
-    else {
-      window.content.document.appendChild(link);
-    }
-    
-  },
-  
-  highLight: function(event) {
-    
-    var nodes = new $Array();
-    for (var i=0, l = event.target.childNodes.length; i < l; i++) {
-      nodes.push(event.target.childNodes[i])
+    for (var i=0, node; node = element.childNodes[i]; i++) {
+      isHighlighted = node.className == 'tg_wrapper';
+      if(isHighlighted) break;
+      
+      istext = node.nodeType == 3 && !/^\s*$/.test(node.nodeValue);
+      if(istext) break;
     };
-    if (nodes.any(function(e){ return e.nodeType == 3 && !e.nodeValue.blank() })) {
-      event.target.style.backgroundColor = '#ffcc00'
-      event.target.style.cursor = 'text'
-      var tag = event.target.tagName
-      var size = TypeGauge.getFontSize(event.target)
-      var lineHeight = TypeGauge.getLineHeight(event.target)
-      TypeGauge.updateOutput({tag:tag, size:size, lineHeight:lineHeight})
+    
+    if (istext) {
+      
+      element.className += ' tg_highlighted';
+      var html = element.innerHTML;
+      element.innerHTML = '';
+      var wrapper = window.content.document.createElement('span');
+      wrapper.className += 'tg_wrapper';
+      wrapper.innerHTML = html;
+      element.appendChild(wrapper);
+      
+      wrapper.style.backgroundColor = 'InfoBackground';
+      wrapper.style.border = '1px solid #ffcc00'
+      wrapper.style.borderWidth = '1px 0'
+      wrapper.style.cursor = 'text';
+      var tag = element.tagName;
+      var size = TG.getFontSize(element);
+      var lineHeight = TG.getLineHeight(element);
+      TG.updateOutput({tag:tag, size:size, lineHeight:lineHeight});
     }
+    event.stopPropagation();
   },
   
-  removeHighLight: function(event) {
-    event.target.style.backgroundColor = ''
-    event.target.style.cursor = ''
+  removeHighlight: function(event) {
+    if (TG.panel.state == 'closed') return;
+    if (event.target.className != 'tg_wrapper') return;
+    if (event.relatedTarget && event.relatedTarget.className.indexOf('tg_highlighted') > 0) return;
+    
+    var wrapper = event.target;
+    var element = wrapper.parentNode;
+
+    element.innerHTML = wrapper.innerHTML;
+    element.className = element.className.replace('tg_highlighted', '');
   },
   
   getFontSize: function(el) {
-    var fontSize = TypeGauge.getStyle(el, 'font-size')
-    fontSize = fontSize.replace('px','')
-    return fontSize.substr(0,fontSize.indexOf('.')+3)  + 'px'
+    var fontSize = TG.getStyle(el, 'font-size');
+    fontSize = fontSize.replace('px','');
+    return fontSize.substr(0,fontSize.indexOf('.')+3)  + 'px';
   },
   
   getLineHeight: function(el) {
-    
-    var lineHeight = TypeGauge.getStyle(el, 'line-height')
+    var lineHeight = TG.getStyle(el, 'line-height')
 
     if (lineHeight == 'normal') {
-      var fontSize = TypeGauge.getStyle(el, 'font-size')
-      var value = fontSize.replace('px','')
-      var lineHeight = value * 1.2 + ''
+      var fontSize = TG.getStyle(el, 'font-size');
+      var value = fontSize.replace('px','');
+      var lineHeight = value * 1.2 + '';
     }
     else if(lineHeight.indexOf('px')){
-        lineHeight = lineHeight.replace('px','')
+        lineHeight = lineHeight.replace('px','');
     }
     else {
-        return 'E ' + lineHeight
+        return 'E ' + lineHeight;
     }
-    return lineHeight.substr(0,lineHeight.indexOf('.')+3) + 'px'  
+    return lineHeight.substr(0,lineHeight.indexOf('.')+3) + 'px';
   },
 
   getStyle: function(el, styleProp) {
-    var style = window.content.document.defaultView.getComputedStyle(el,null).getPropertyValue(styleProp);
-    return style;
+    return window.content.document.defaultView.getComputedStyle(el,null).getPropertyValue(styleProp);
   },
   
   updateOutput: function(output) {
-    var outputStr = '<dl>'
-    
+    var outputStr = '<dl id="typegauge-dl">';
     for(key in output) {
-      outputStr += '<dt class="tg-'+ key + '">'+ key +'</dt><dd class="tg-'+ key + '">' + output[key] + '</dd>' 
+      outputStr += '<dt class="tg_'+ key + '">'+ key +'</dt><dd class="tg_'+ key + '">' + output[key] + '</dd>';
     }
-    
-    outputStr += '</dl>'
-    
-    window.content.document.getElementById('typegauge').innerHTML = outputStr
+    outputStr += '</dl>';
+    var parser = new DOMParser();
+    var resultDoc = parser.parseFromString(outputStr,"text/xml");
+    document.getElementById('typegauge').replaceChild(resultDoc.documentElement, document.getElementById('typegauge-dl'));
+    // TG.log(document.getElementById('typegauge').getElementsByTagName('dt')[0].className)
   }
+
 }
+
+TypeGauge.initialize();

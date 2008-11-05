@@ -1,24 +1,21 @@
-#typegauge-bg {
-  position:fixed;
-  z-index: 2147483646;
-  bottom:0;
-  left:0;
-  width:100%;
-  height:30px;
-  outline:1px solid #999;
-  border-top:1px solid black;
-  background-color:#333;
-  opacity: .7;
+#typegauge-panel {
+  -moz-appearance: none;
+  background-color: transparent;
+  border-width: 0px;
 }
 
 #typegauge {
-  position:fixed;
-  z-index: 2147483647;
-  bottom:0;
-  right:0;
-  height:25px;
+  padding: 10px;
+  margin: 10px;
+  height:35px;
+  background: rgba(0%, 0%, 0%, 0.8);
+  -moz-border-radius: 5px;
+  color:white;
 }
 
+#typegauge dl {
+  width:100%;
+}
 
 #typegauge dl {
   margin:0;
@@ -29,9 +26,6 @@
 #typegauge dt, #typegauge dd {
   display:table-cell;
   width:30px;
-  float:none;
-  clear:none;
-  margin:0;
 }
 
 #typegauge dt {
@@ -39,6 +33,7 @@
   font: normal 11px Arial,sans-serif;
   text-transform:uppercase;
   padding-right:1em;
+  line-height:20px;
 }
 
 #typegauge dd {
@@ -46,18 +41,20 @@
   font: bold 13px Arial,sans-serif;
   padding-right:2em;
   width:50px;
+  line-height:20px;
 }
 
-#typegauge dd.tg-tag {
-  font-family: Monaco, monospace;
-  text-transform:lowercase;
-  width:100px;
+#typegauge .tg_tag {
+  font-family: Monaco, monospace !important;
+  text-transform:lowercase !important;
+  width:100px !important;
+  color:red !important;
 }
 
-#typegauge dd.tg-tag:before {
+/*#typegauge .tg-tag:before {
   content:'<';
 }
 
-#typegauge dd.tg-tag:after {
+#typegauge .tg-tag:after {
   content:'>';
-}
+}*/

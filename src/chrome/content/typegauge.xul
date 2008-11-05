@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<?xml-stylesheet href="typegauge.css" type="text/css"?>
 <!DOCTYPE overlay >
 <overlay id="TypeGauge-overlay"
   xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-  <script src="protosafe.js"/>
-  <script src="prototype.js"/>
-  <script src="typegauge.js"/> 
+   <script src="typegauge.js"/> 
   
-  <!-- Firefox -->
-  <statusbar id="status-bar">
+  <script>
+
+  </script>
+
+  <popupset id="mainPopupSet">
+    <panel id="typegauge-panel" noautohide="true" align="center">
+      <div id="typegauge" width="400">
+        <dl id="typegauge-dl"><dt class="tg-tag"></dt><dd class="tg-tag"></dd><dt class="tg-size"></dt><dd class="tg-size"></dd><dt class="tg-lineHeight"></dt><dd class="tg-lineHeight"></dd></dl>
+      </div>
+    </panel>
+  </popupset>
+
+  <!-- <statusbar id="status-bar">
     <statusbarpanel 
       class="statusbarpanel-iconic"
       id="tgStatus"
@@ -17,7 +26,17 @@
       onclick="TypeGauge.toggle()"
       src="chrome://typegauge/content/logo.png"
       style="cursor:pointer"
-
+      />
+  </statusbar> -->
+  
+  <statusbar id="status-bar">
+    <statusbarpanel 
+      class="statusbarpanel-iconic"
+      id="tgStatus"
+      tooltiptext="Click to start measuring type"
+      onclick="(function(){TypeGauge.toggle()})()"
+      src="chrome://typegauge/content/logo.png"
+      style="cursor:pointer"
       />
   </statusbar>
 

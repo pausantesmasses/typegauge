@@ -4,7 +4,7 @@ app_name = 'typegauge'
 version = '0.4'
 uri = 'http://pau.santesmasses.net/typegauge/releases/'
 
-system("rm ../build/* && svn --force export ../src ../build && cd ../build && zip -rm #{app_name}.#{version}.xpi . && cd ..")
+system("rm -rf ../build/* && svn --force export ../src ../build && cd ../build && zip -rm #{app_name}.#{version}.xpi . && cd ..")
 
 hash = Digest::SHA1.hexdigest(File.read("../build/#{app_name}.#{version}.xpi"))
 
