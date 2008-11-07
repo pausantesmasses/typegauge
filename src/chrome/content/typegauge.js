@@ -26,7 +26,6 @@ TypeGauge = TG = {
   startListening: function(page) {
     TG.updateOutput({tag:'', size:'', lineHeight:''});
     page.addEventListener("mouseover", this.highlight, false);
-    page.addEventListener("mouseout", this.removeHighlight, false);
     window.content.addEventListener("unload", this.stopListening, false);
   },
   
@@ -49,7 +48,8 @@ TypeGauge = TG = {
   highlight: function(event) {
     if (TG.panel.state == 'closed') return;
     if (event.target.className == 'tg_wrapper') return;
-    if (event.relatedTarget && event.relatedTarget.className == 'tg_wrapper') return;
+    
+    TG.removeHighlight();
     
     var element = event.target;
     var istext, isHighlighted;
@@ -72,28 +72,28 @@ TypeGauge = TG = {
       wrapper.innerHTML = html;
       element.appendChild(wrapper);
       
-      wrapper.style.backgroundColor = 'InfoBackground';
-      wrapper.style.border = '1px solid #ffcc00'
-      wrapper.style.borderWidth = '1px 0'
+      wrapper.style.backgroundColor = '#ffcc00';
+      wrapper.style.border = '1px solid white';
+      wrapper.style.borderWidth = '1px 0';
       wrapper.style.cursor = 'text';
       var tag = element.tagName;
       var size = TG.getFontSize(element);
       var lineHeight = TG.getLineHeight(element);
       TG.updateOutput({tag:tag, size:size, lineHeight:lineHeight});
+      TG.active_element = element;
+      TG.active_wrapper = wrapper
     }
-    event.stopPropagation();
   },
   
   removeHighlight: function(event) {
     if (TG.panel.state == 'closed') return;
-    if (event.target.className != 'tg_wrapper') return;
-    if (event.relatedTarget && event.relatedTarget.className.indexOf('tg_highlighted') > 0) return;
+    if (!TG.active_element) return;
     
-    var wrapper = event.target;
-    var element = wrapper.parentNode;
-
+    var wrapper = TG.active_wrapper;
+    var element = TG.active_element;
     element.innerHTML = wrapper.innerHTML;
     element.className = element.className.replace('tg_highlighted', '');
+    TG.active_wrapper = TG.active_element = null;
   },
   
   getFontSize: function(el) {
@@ -132,7 +132,6 @@ TypeGauge = TG = {
     var parser = new DOMParser();
     var resultDoc = parser.parseFromString(outputStr,"text/xml");
     document.getElementById('typegauge').replaceChild(resultDoc.documentElement, document.getElementById('typegauge-dl'));
-    // TG.log(document.getElementById('typegauge').getElementsByTagName('dt')[0].className)
   }
 
 }
