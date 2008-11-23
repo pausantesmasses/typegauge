@@ -9,7 +9,11 @@
   <popupset id="mainPopupSet">
     <panel id="typegauge-panel" noautohide="true" align="center">
       <div id="typegauge" width="400">
-        <dl id="typegauge-dl"><dt class="tg-tag"></dt><dd class="tg-tag"></dd><dt class="tg-size"></dt><dd class="tg-size"></dd><dt class="tg-lineHeight"></dt><dd class="tg-lineHeight"></dd></dl>
+        <dl id="typegauge-dl">
+          <dt>tag</dt><dd id="tg-tag-value"></dd>
+          <dt>size</dt><dd id="tg-size-value"> </dd>
+          <dt>lineHeight</dt><dd id="tg-lineHeight-value"> </dd>
+        </dl>
       </div>
     </panel>
   </popupset>

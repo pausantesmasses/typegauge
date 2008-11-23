@@ -8,7 +8,7 @@ TypeGauge = TG = {
   
   onWindowLoad: function() {
     TG.panel = document.getElementById('typegauge-panel');
-    TG.updateOutput({tag:'...', size:'...', lineHeight:'...'});
+    // TG.updateOutput({tag:'...', size:'...', lineHeight:'...'});
     
     var appcontent = document.getElementById("appcontent");
     appcontent.addEventListener("DOMContentLoaded", TG.onPageLoad, true);
@@ -24,19 +24,19 @@ TypeGauge = TG = {
   },
   
   startListening: function(page) {
-    TG.updateOutput({tag:'', size:'', lineHeight:''});
+    // TG.updateOutput({tag:'', size:'', lineHeight:''});
     page.addEventListener("mouseover", this.highlight, false);
     window.content.addEventListener("unload", this.stopListening, false);
   },
   
   stopListening: function() {
     var page = window.content.document;
-    page.removeEventListener("mouseover", this.highlight, false)
-    page.removeEventListener("mouseout", this.removeHighlight, false)
+    page.removeEventListener("mouseover", this.highlight, false);
+    page.removeEventListener("mouseout", this.removeHighlight, false);
   },
   
   toggle: function() {
-    var anchor = document.getElementById('browser-bottombox')
+    var anchor = document.getElementById('browser-bottombox');
     if (TG.panel.state == 'closed') {
       TG.panel.openPopup(anchor, "before_start", 0, 0, false, true);
     }
@@ -58,39 +58,47 @@ TypeGauge = TG = {
       isHighlighted = node.className == 'tg_wrapper';
       if(isHighlighted) break;
       
-      istext = node.nodeType == 3 && !/^\s*$/.test(node.nodeValue);
+      istext = node.nodeType == 3 && !(/^\s*$/).test(node.nodeValue);
       if(istext) break;
     };
     
     if (istext) {
+
+      var range = window.content.document.createRange();
+      range.selectNodeContents(element);
       
       element.className += ' tg_highlighted';
-      var html = element.innerHTML;
-      element.innerHTML = '';
+      
       var wrapper = window.content.document.createElement('span');
       wrapper.className += 'tg_wrapper';
-      wrapper.innerHTML = html;
-      element.appendChild(wrapper);
       
       wrapper.style.backgroundColor = '#ffcc00';
       wrapper.style.border = '1px solid white';
       wrapper.style.borderWidth = '1px 0';
       wrapper.style.cursor = 'text';
+      
+      range.surroundContents(wrapper);
+      
       var tag = element.tagName;
       var size = TG.getFontSize(element);
       var lineHeight = TG.getLineHeight(element);
       TG.updateOutput({tag:tag, size:size, lineHeight:lineHeight});
       TG.active_element = element;
-      TG.active_wrapper = wrapper
+      TG.active_wrapper = wrapper;
+      
+      range.detach();
     }
   },
   
   removeHighlight: function(event) {
+    TG.updateOutput({tag:'', size:'', lineHeight:''});
+    
     if (TG.panel.state == 'closed') return;
     if (!TG.active_element) return;
     
     var wrapper = TG.active_wrapper;
     var element = TG.active_element;
+    
     element.innerHTML = wrapper.innerHTML;
     element.className = element.className.replace('tg_highlighted', '');
     TG.active_wrapper = TG.active_element = null;
@@ -103,7 +111,7 @@ TypeGauge = TG = {
   },
   
   getLineHeight: function(el) {
-    var lineHeight = TG.getStyle(el, 'line-height')
+    var lineHeight = TG.getStyle(el, 'line-height');
 
     if (lineHeight == 'normal') {
       var fontSize = TG.getStyle(el, 'font-size');
@@ -124,16 +132,11 @@ TypeGauge = TG = {
   },
   
   updateOutput: function(output) {
-    var outputStr = '<dl id="typegauge-dl">';
-    for(key in output) {
-      outputStr += '<dt class="tg_'+ key + '">'+ key +'</dt><dd class="tg_'+ key + '">' + output[key] + '</dd>';
-    }
-    outputStr += '</dl>';
-    var parser = new DOMParser();
-    var resultDoc = parser.parseFromString(outputStr,"text/xml");
-    document.getElementById('typegauge').replaceChild(resultDoc.documentElement, document.getElementById('typegauge-dl'));
+    document.getElementById('tg-tag-value').textContent = output['tag'] ? '<' + output['tag'] + '>' : '';
+    document.getElementById('tg-size-value').textContent = output['size'];
+    document.getElementById('tg-lineHeight-value').textContent = output['lineHeight'];
   }
 
-}
+};
 
 TypeGauge.initialize();

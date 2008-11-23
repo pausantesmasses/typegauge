@@ -7,7 +7,7 @@
 #typegauge {
   padding: 10px;
   margin: 10px;
-  height:35px;
+  height:40px;
   background: rgba(0%, 0%, 0%, 0.8);
   -moz-border-radius: 5px;
   color:white;
@@ -44,17 +44,7 @@
   line-height:20px;
 }
 
-#typegauge .tg_tag {
+#tg-tag-value {
   font-family: Monaco, monospace !important;
-  text-transform:lowercase !important;
-  width:100px !important;
-  color:red !important;
+  text-transform:lowercase;
 }
-
-/*#typegauge .tg-tag:before {
-  content:'<';
-}
-
-#typegauge .tg-tag:after {
-  content:'>';
-}*/
