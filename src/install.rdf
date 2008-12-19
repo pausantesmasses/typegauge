@@ -7,13 +7,11 @@
   <em:description>Measure Type</em:description>
   <em:creator>Pau Santesmasses</em:creator>
   <em:homepageURL>http://pau.santesmasses.net/typegauge</em:homepageURL>
-  <em:updateURL>http://pau.santesmasses.net/typegauge/releases/update.rdf</em:updateURL>
-  <em:updateKey>MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDcIApHaKUGDevOVtabLUmaSycLqEBSUUJG9h19gJWphSsNrYOkxuHfcXmlcPLozI7EIoQJhnkOKCN4mcTVjB4X3KKz/WdGsX+2ZKfaGPCizyWX4kxJgBF2WLkchuDrszxV2FbW3Cp907tVTy7a6u0x5XIPbntUAUWSb5UuHg5jkwIDAQAB</em:updateKey>
   <em:targetApplication>
     <Description>
       <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
-      <em:minVersion>1.5</em:minVersion>
-      <em:maxVersion>3.*</em:maxVersion>
+      <em:minVersion>3.0</em:minVersion>
+      <em:maxVersion>3.0.*</em:maxVersion>
     </Description>
   </em:targetApplication>
 </Description>

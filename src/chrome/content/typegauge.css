@@ -5,9 +5,8 @@
 }
 
 #typegauge {
-  padding: 10px;
+  padding: 10px 15px 6px;
   margin: 10px;
-  height:40px;
   background: rgba(0%, 0%, 0%, 0.8);
   -moz-border-radius: 5px;
   color:white;
@@ -24,27 +23,29 @@
 }
 
 #typegauge dt, #typegauge dd {
-  display:table-cell;
-  width:30px;
+  display:inline-block;
+  height:20px;
 }
 
 #typegauge dt {
   color:#e3e3e3;
   font: normal 11px Arial,sans-serif;
   text-transform:uppercase;
-  padding-right:1em;
-  line-height:20px;
+  margin-right:20px;
 }
 
 #typegauge dd {
   color:white;
   font: bold 13px Arial,sans-serif;
-  padding-right:2em;
   width:50px;
-  line-height:20px;
+  margin-right:40px;
 }
 
-#tg-tag-value {
+#typegauge dd:last-child {
+  margin-right:0;
+}
+
+#typegauge #tg-tag-value {
   font-family: Monaco, monospace !important;
   text-transform:lowercase;
 }

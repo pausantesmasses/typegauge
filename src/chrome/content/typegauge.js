@@ -8,7 +8,6 @@ TypeGauge = TG = {
   
   onWindowLoad: function() {
     TG.panel = document.getElementById('typegauge-panel');
-    // TG.updateOutput({tag:'...', size:'...', lineHeight:'...'});
     
     var appcontent = document.getElementById("appcontent");
     appcontent.addEventListener("DOMContentLoaded", TG.onPageLoad, true);
@@ -24,7 +23,7 @@ TypeGauge = TG = {
   },
   
   startListening: function(page) {
-    // TG.updateOutput({tag:'', size:'', lineHeight:''});
+    TG.updateOutput({tag:'', size:'', lineHeight:''});
     page.addEventListener("mouseover", this.highlight, false);
     window.content.addEventListener("unload", this.stopListening, false);
   },
@@ -132,9 +131,9 @@ TypeGauge = TG = {
   },
   
   updateOutput: function(output) {
-    document.getElementById('tg-tag-value').textContent = output['tag'] ? '<' + output['tag'] + '>' : '';
-    document.getElementById('tg-size-value').textContent = output['size'];
-    document.getElementById('tg-lineHeight-value').textContent = output['lineHeight'];
+    document.getElementById('tg-tag-value').textContent = output['tag'] ? '<' + output['tag'] + '>' : '\u00A0';
+    document.getElementById('tg-size-value').textContent = output['size'] ? output['size'] : '\u00A0';
+    document.getElementById('tg-lineHeight-value').textContent = output['lineHeight'] ? output['lineHeight'] : '\u00A0';
   }
 
 };

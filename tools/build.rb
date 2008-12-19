@@ -22,8 +22,8 @@ update_rdf = <<XML
           <targetApplication>
             <r:Description>
               <id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</id>
-              <minVersion>1.5</minVersion>
-              <maxVersion>3</maxVersion>
+              <minVersion>3</minVersion>
+              <maxVersion>3.*</maxVersion>
               <updateLink>#{uri}#{app_name}.#{version}.xpi</updateLink>
               <updateHash>sha1:#{hash}</updateHash>
             </r:Description>
